@@ -1,0 +1,37 @@
+# This file specifies files and directories that Git should ignore.
+# It is designed for Flutter projects.
+
+# Binaries for the current platform.
+.dart_tool/
+.fvm/
+
+# Generated files
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.vs_code/
+.idea/
+build/
+*.iml
+*.lock
+
+# Non-versioned configuration or environment files
+*.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.bak
+*.swo
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
