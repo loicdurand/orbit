@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:drift/drift.dart'; // Import for Value class
 import 'package:orbit/src/services/note_repository.dart';
 import 'package:orbit/src/services/contact_repository.dart';
+import 'package:orbit/src/services/reminder_repository.dart';
 import 'package:orbit/src/core/database.dart'; // Import AppDatabase and generated types
 
 part 'capture_provider.g.dart';
@@ -17,17 +18,17 @@ final noteRepositoryProvider = Provider((ref) {
 
 // Provider for ContactRepository
 final contactRepositoryProvider = Provider((ref) {
-n// Provider for ReminderRepository
+  return ContactRepository(ref.watch(appDatabaseProvider));
+});
+
+// Provider for ReminderRepository
 final reminderRepositoryProvider = Provider((ref) {
   return ReminderRepository(ref.watch(appDatabaseProvider));
 });
 
-  return ContactRepository(ref.watch(appDatabaseProvider));
-});
-
 
 @riverpod
-class CaptureState extends _$CaptureState {
+class CaptureState extends _ {
   @override
   String build() {
     return ''; // Initial state for the note content
@@ -65,6 +66,7 @@ class CaptureState extends _$CaptureState {
         contactId: Value(selectedContact.id),
       );
       await ref.read(reminderRepositoryProvider).saveReminder(reminder);
+    }
     // Update contact aiProfileData
     final profileData = jsonEncode({
       "family": analysis["family"],
@@ -76,7 +78,6 @@ class CaptureState extends _$CaptureState {
       aiProfileData: Value(profileData),
     );
     await ref.read(contactRepositoryProvider).updateContact(selectedContact.id, updatedContact);
-    }
     // TODO: Handle analysis for next tasks
     state = ''; // Clear the input after saving
   }

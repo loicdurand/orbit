@@ -51,43 +51,48 @@ class ContactDetailScreen extends ConsumerWidget {
                     if (notes.isEmpty) {
                       return const Text('No notes for this contact.');
                     }
-                    return Expanded(
-            const SizedBox(height: 20),
-            Text("AI Profile Data:", style: Theme.of(context).textTheme.headlineSmall),
-            if (contact.aiProfileData != null && contact.aiProfileData!.isNotEmpty) ...[
-              Builder(
-                builder: (context) {
-                  final profile = jsonDecode(contact.aiProfileData!);
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Family: ${profile["family"]?.join(", ") ?? "N/A"}"),
-                      Text("Interests: ${profile["interests"]?.join(", ") ?? "N/A"}"),
-                      Text("Events: ${profile["events"]?.map((e) => e["description"]).join(", ") ?? "N/A"}"),
-                    ],
-                  );
-                },
-              ),
-            ] else Text("No AI data available."),
-                      child: ListView.builder(
-                        itemCount: notes.length,
-                        itemBuilder: (context, index) {
-                          final note = notes[index];
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(note.content),
-                                  Text('Date: ${note.date.toLocal().toString().split(' ')[0]}', style: Theme.of(context).textTheme.bodySmall),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        Text("AI Profile Data:", style: Theme.of(context).textTheme.headlineSmall),
+                        contact.aiProfileData != null && contact.aiProfileData!.isNotEmpty
+                          ? Builder(
+                              builder: (context) {
+                                final profile = jsonDecode(contact.aiProfileData!);
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Family: ${profile["family"]?.join(", ") ?? "N/A"}"),
+                                    Text("Interests: ${profile["interests"]?.join(", ") ?? "N/A"}"),
+                                    Text("Events: ${profile["events"]?.map((e) => e["description"]).join(", ") ?? "N/A"}"),
+                                  ],
+                                );
+                              },
+                            )
+                          : Text("No AI data available."),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: notes.length,
+                            itemBuilder: (context, index) {
+                              final note = notes[index];
+                              return Card(
+                                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(note.content),
+                                      Text('Date: ${note.date.toLocal().toString().split(' ')[0]}', style: Theme.of(context).textTheme.bodySmall),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     );
                   },
                   loading: () => const CircularProgressIndicator(),

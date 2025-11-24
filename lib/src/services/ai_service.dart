@@ -54,9 +54,8 @@ Return as JSON: {
       throw Exception('Failed to analyze note: $e');
     }
   }
-}
 
   Future<void> setApiKey(String apiKey) async {
-    await _storage.write(key: \"openai_api_key\", value: apiKey);
+    await _storage.write(key: 'openai_api_key', value: apiKey);
   }
-
+}
